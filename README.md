@@ -28,11 +28,11 @@ Linux environment.
 
 ## Development environment
 
-- (Fedora 32/ GNU Linux)[https://getfedora.org/] - Operating System
-- (GCC)[https://gcc.gnu.org/] - C compiler
-- (GDB)[https://www.gnu.org/software/gdb/] - C Debugger
-- (VS Code)[https://code.visualstudio.com/] - Code editor
-- (Github)[https://github.com] - Version Control
+- [Fedora 32/ GNU Linux](https://getfedora.org/) - Operating System
+- [GCC](https://gcc.gnu.org/) - C compiler
+- [GDB](https://www.gnu.org/software/gdb/) - C Debugger
+- [VS Code](https://code.visualstudio.com/) - Code editor
+- [Github](https://github.com) - Version Control
 
 ## USE CASE
 
