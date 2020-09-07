@@ -1,7 +1,8 @@
 #include <stdio.h>
+#include "common/error.h"
 
 int main()
 {
-    printf("Hello world\n");
+    error("hello world");
     return 0;
 }
