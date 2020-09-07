@@ -4,7 +4,7 @@
 #include <stdarg.h> // va_list, va_start, va_end
 #include <unistd.h> // _exit
 
-void error(char *msg, ...)
+int error(char *msg, ...)
 {
     int error = errno;
     va_list ap;
@@ -22,6 +22,8 @@ void error(char *msg, ...)
         fflush(stdout);
     }
     va_end(ap);
+
+    return 1;
 }
 
 void error_n_die(char *msg)
