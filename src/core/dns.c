@@ -11,6 +11,9 @@
 
 int resolve(char *domain, char *ip)
 {
+    if (strlen(domain) == 0)
+        return error("Error: A domain name is required");
+
     int err, sock;
     char data_sent[MAXLENGTH];
     struct addrinfo hints, *result;
@@ -20,7 +23,6 @@ int resolve(char *domain, char *ip)
     hints.ai_socktype = SOCK_DGRAM; // Use TCP socket to connect to the DNS
 
     err = getaddrinfo(domain, PORT, &hints, &result);
-
     if (err != 0)
         return error("An error has occurred while getting address. %s.", gai_strerror(err));
 
