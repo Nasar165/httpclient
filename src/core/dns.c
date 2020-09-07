@@ -11,7 +11,7 @@
 
 int resolve(char *domain, char *ip)
 {
-    if (strlen(domain) == 0)
+    if (strlen(domain) == 0 || domain == NULL)
         return error("Error: A domain name is required");
 
     int err, sock;
