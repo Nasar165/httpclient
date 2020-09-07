@@ -7,5 +7,5 @@ arduino: src/main.c
 
 main: src/main.c
 	mkdir -p src/out
-	gcc src/main.c src/common/error.c src/common/dns.c -o src/out/main.out
+	gcc src/main.c src/common/error.c src/core/dns.c -o src/out/main.out
 

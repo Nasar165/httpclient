@@ -1,18 +1,18 @@
 #include <stdio.h>
-#include "common/dns.h"
+#include "core/dns.h"
 #include "common/error.h"
 
 int main(int argc, char *argv[])
 {
-
     if (argc <= 1)
         return error("Error: enter a domain : main.out <domain>\n");
 
     printf("Resolving %s\n", argv[1]);
-    char ip[100];
-    resolve(argv[1], ip);
+    int err;
+    char ip[256];
+    err = resolve(argv[1], ip);
 
-    if (ip != NULL)
+    if (ip != NULL && err == 0)
         printf("%s\n", ip);
     return 0;
 }
