@@ -5,7 +5,6 @@
 #include <sys/socket.h>      // socket sendto perror
 #include <unistd.h>          // close
 #include "../common/error.h" // error
-#include <errno.h>
 
 // DNS SERVERS LISTENS ON PORT 53
 #define SERVICE "53"
