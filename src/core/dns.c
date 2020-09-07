@@ -5,9 +5,12 @@
 #include <sys/socket.h>      // socket sendto perror
 #include <unistd.h>          // close
 #include "../common/error.h" // error
+#include <errno.h>
 
-#define PORT "53"
-#define MAXLENGTH 256
+// DNS SERVERS LISTENS ON PORT 53
+#define SERVICE "53"
+// MAX ARRAY LENGTH 15
+#define MAXLENGTH 15
 
 int resolve(char *domain, char *ip)
 {
@@ -19,10 +22,10 @@ int resolve(char *domain, char *ip)
     struct addrinfo hints, *result;
 
     memset(&hints, 0, sizeof(hints));
-    hints.ai_family = AF_UNSPEC;    // change to AF_INET for ipv4 only
-    hints.ai_socktype = SOCK_DGRAM; // Use TCP socket to connect to the DNS
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_DGRAM; // Use UDP PROTOCOL to connect to the DNS on port 53
 
-    err = getaddrinfo(domain, PORT, &hints, &result);
+    err = getaddrinfo(domain, SERVICE, &hints, &result);
     if (err != 0)
         return error("An error has occurred while getting address. %s.", gai_strerror(err));
 
@@ -36,6 +39,7 @@ int resolve(char *domain, char *ip)
 
     struct sockaddr_in *addr;
     addr = (struct sockaddr_in *)result->ai_addr;
+
     strcpy(ip, inet_ntoa((struct in_addr)addr->sin_addr));
 
     close(sock);
