@@ -13,6 +13,7 @@ void error(char *msg, ...)
         printf("(errno = %d) : %s\n", error, strerror(error));
         printf("\n");
     }
+    return 1;
 }
 
 void error_n_die(char *msg)

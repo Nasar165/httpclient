@@ -1,12 +1,18 @@
 #include <stdio.h>
+#include "core/dns.h"
 #include "common/error.h"
 
-int main()
+int main(int argc, char *argv[])
 {
-    FILE *file = fopen("/home/asd", "r");
-    if (file == NULL)
-        error_n_die("Could not find the file\n");
+    if (argc <= 1)
+        return error("Error: enter a domain : main.out <domain>\n");
 
-    printf("hello world");
+    printf("Resolving %s\n", argv[1]);
+    int err;
+    char ip[256];
+    err = resolve(argv[1], ip);
+
+    if (ip != NULL && err == 0)
+        printf("%s\n", ip);
     return 0;
 }
