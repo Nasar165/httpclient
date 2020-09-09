@@ -1,11 +1,55 @@
 #include <stdio.h>
-#include <sys/socket.h>
-#include "../common/error.h"
-#include "dns.h"
+#include <string.h>          //memset
+#include <sys/socket.h>      // socket connect
+#include <netinet/in.h>      // all socket funtions
+#include <arpa/inet.h>       // inet_pton htons
+#include <netinet/in.h>      // all socket funtions
+#include <unistd.h>          // write
+#include "../common/error.h" // Error
+#include "dns.h"             // Resolve
 
-void Get(char *domain)
+#define PORT 80
+#define BUFFER 4096
+#define SA struct sockaddr
+
+int Get(char *domain)
 {
-    int err;
-    char ip[15];
-    err = resolve(domain, ip);
+    int err, n, sock, sendBytes;
+    char ip[32];
+    struct sockaddr_in server;
+    char request[BUFFER];
+    char response[BUFFER];
+
+    if ((err = resolve(domain, ip)) != 0)
+        return error("An error has occurred fetching the ip of the domain");
+
+    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) // Init TCP socket
+        return error("Failed to create Socket");
+
+    memset(&server, 0, sizeof(server));
+
+    server.sin_family = AF_INET;
+    server.sin_port = htons(PORT);
+
+    if ((inet_pton(AF_INET, ip, &server.sin_addr)) <= 0)
+        return error("Unable to convert ip address to binary form");
+
+    if (connect(sock, (SA *)&server, sizeof(server)) < 0)
+        return error("Failed to connect to the server");
+
+    sprintf(request, "GET /index.html HTTP/1.1\r\nHost: %s\r\n\r\n", domain);
+    sendBytes = strlen(request);
+
+    if (write(sock, request, sendBytes) != sendBytes)
+        return error("Failed to write to response");
+
+    memset(&response, 0, sizeof(response));
+
+    while ((n = read(sock, response, BUFFER - 1)) > 0)
+        printf("%s\n", response);
+
+    if (n < 0)
+        return error("Failed to read from response");
+
+    return 0;
 }

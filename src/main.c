@@ -25,5 +25,7 @@ int main(int argc, char *argv[])
     if (argc <= 1)
         return error("Error: enter a domain : main.out <domain>\n");
 
+    Get(argv[1]);
+
     return 0;
 }

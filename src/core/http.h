@@ -1,5 +1,5 @@
-#ifndef FUNCTIONS_H
-#define FUNCTIONS_H
+#ifndef FUNCTIONS_HTTP
+#define FUNCTIONS_HTTP
 
 void Get(char *domain);
 
