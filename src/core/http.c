@@ -37,6 +37,7 @@ int Get(char *domain, uint16_t *port)
         return error("Failed to connect to the server");
     printf("%d", err);
 
+    // slash after get represents a url
     sprintf(request, "GET / HTTP/1.1\r\nHost: %s\r\nConnection: close\r\n\r\n", domain);
     sendBytes = strlen(request);
 
