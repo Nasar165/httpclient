@@ -8,14 +8,13 @@
 #include "../common/error.h" // Error
 #include "dns.h"             // Resolve
 
-#define PORT 80
 #define BUFFER 4096
 #define SA struct sockaddr
 
-int Get(char *domain)
+int Get(char *domain, uint16_t *port)
 {
     int err, n, sock, sendBytes;
-    char ip[32];
+    char ip[15];
     struct sockaddr_in server;
     char request[BUFFER];
     char response[BUFFER];
@@ -29,15 +28,16 @@ int Get(char *domain)
     memset(&server, 0, sizeof(server));
 
     server.sin_family = AF_INET;
-    server.sin_port = htons(PORT);
+    server.sin_port = htons(*port);
 
-    if ((inet_pton(AF_INET, ip, &server.sin_addr)) <= 0)
+    if ((inet_pton(AF_INET, domain, &server.sin_addr)) <= 0)
         return error("Unable to convert ip address to binary form");
 
-    if (connect(sock, (SA *)&server, sizeof(server)) < 0)
+    if ((err = connect(sock, (SA *)&server, sizeof(server))) < 0)
         return error("Failed to connect to the server");
+    printf("%d", err);
 
-    sprintf(request, "GET /index.html HTTP/1.1\r\nHost: %s\r\nConnection: close\r\n\r\n", domain);
+    sprintf(request, "GET / HTTP/1.1\r\nHost: %s\r\nConnection: close\r\n\r\n", domain);
     sendBytes = strlen(request);
 
     if (write(sock, request, sendBytes) != sendBytes)

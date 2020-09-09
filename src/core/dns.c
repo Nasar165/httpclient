@@ -21,7 +21,7 @@ int resolve(char *domain, char *ip)
     struct addrinfo hints, *result;
 
     memset(&hints, 0, sizeof(hints));
-    hints.ai_family = AF_UNSPEC;
+    hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_DGRAM; // Use UDP PROTOCOL to connect to the DNS on port 53
 
     err = getaddrinfo(domain, SERVICE, &hints, &result);
