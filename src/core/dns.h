@@ -1,2 +1,2 @@
 
-char resolve(char *domain, char *ip);
+int resolve(char *domain, char *ip);

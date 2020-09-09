@@ -1,8 +1,10 @@
-#include <stdio.h>
-#include "core/dns.h"
-#include "common/error.h"
+#include <stdio.h>        // printf
+#include "core/dns.h"     // Resolve
+#include "core/http.h"    // Get
+#include "common/error.h" // errror
 
-int main(int argc, char *argv[])
+// Test DNS Only
+/*int main(int argc, char *argv[])
 {
     if (argc <= 1)
         return error("Error: enter a domain : main.out <domain>\n");
@@ -14,5 +16,14 @@ int main(int argc, char *argv[])
 
     if (ip != NULL && err == 0)
         printf("%s\n", ip);
+    return 0;
+}*/
+
+// TEST DNS AND HTTP GET
+int main(int argc, char *argv[])
+{
+    if (argc <= 1)
+        return error("Error: enter a domain : main.out <domain>\n");
+
     return 0;
 }
