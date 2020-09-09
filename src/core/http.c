@@ -37,7 +37,7 @@ int Get(char *domain)
     if (connect(sock, (SA *)&server, sizeof(server)) < 0)
         return error("Failed to connect to the server");
 
-    sprintf(request, "GET /index.html HTTP/1.0\r\nHost: %s\r\n\r\n", domain);
+    sprintf(request, "GET /index.html HTTP/1.1\r\nHost: %s\r\nConnection: close\r\n\r\n", domain);
     sendBytes = strlen(request);
 
     if (write(sock, request, sendBytes) != sendBytes)
