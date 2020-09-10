@@ -30,7 +30,7 @@ int Get(char *domain, uint16_t *port)
     server.sin_family = AF_INET;
     server.sin_port = htons(*port);
 
-    if ((inet_pton(AF_INET, domain, &server.sin_addr)) <= 0)
+    if ((inet_pton(AF_INET, ip, &server.sin_addr)) <= 0)
         return error("Unable to convert ip address to binary form");
 
     if ((err = connect(sock, (SA *)&server, sizeof(server))) < 0)
