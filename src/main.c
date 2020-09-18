@@ -25,21 +25,29 @@
 // TEST DNS AND HTTP GET
 int main(int argc, char *argv[])
 {
-    uint16_t port;
+    struct Http http;
     int err = 0;
-    char resp[4096];
+
     if (argc <= 2)
         return error("Error: enter a domain and port: main.out <domain> <port>\n");
+    http.domain = argv[1];
 
     for (int i = 0; i < strlen(argv[2]); i++)
         if (isalpha(argv[2][i]))
             return error("Error: you have entered a alpabetic value as port");
 
-    port = atoi(argv[2]);
-    if ((err = Get(argv[1], &port, resp)) != 0)
+    http.port = atoi(argv[2]);
+
+    if ((err = Get(argv[1], &http)) != 0)
         return error("Http request failed\n");
 
-    printf("%s\n", resp);
+    printf("\nProtocol : %s\n", http.protocol);
+    printf("Method : %s\n", http.method);
+    printf("Domain : %s\n", http.domain);
+    printf("URL : %s\n", http.url);
+    printf("Port : %d\n", http.port);
+    printf("IP : %s\n", http.ip);
+    // printf("\nHttp Body :%s\n", http.body);
 
     return 0;
 }
