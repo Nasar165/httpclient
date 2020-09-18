@@ -26,7 +26,8 @@
 int main(int argc, char *argv[])
 {
     uint16_t port;
-
+    int err = 0;
+    char resp[4096];
     if (argc <= 2)
         return error("Error: enter a domain and port: main.out <domain> <port>\n");
 
@@ -35,7 +36,10 @@ int main(int argc, char *argv[])
             return error("Error: you have entered a alpabetic value as port");
 
     port = atoi(argv[2]);
-    Get(argv[1], &port);
+    if ((err = Get(argv[1], &port, resp)) != 0)
+        return error("Http request failed\n");
+
+    printf("%s\n", resp);
 
     return 0;
 }

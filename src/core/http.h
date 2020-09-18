@@ -2,6 +2,6 @@
 #define FUNCTIONS_HTTP
 
 #include <stdint.h>
-void Get(char *domain, uint16_t *port);
+int Get(char *domain, uint16_t *port, char *resp);
 
 #endif
