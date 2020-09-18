@@ -1,2 +1,6 @@
+#ifndef FUNCTIONS_DNS
+#define FUNCTIONS_DNS
 
-char resolve(char *domain, char *ip);
+int resolve(char *domain, char *ip);
+
+#endif

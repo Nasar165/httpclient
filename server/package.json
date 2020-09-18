@@ -1,0 +1,37 @@
+{
+  "name": "httpserver",
+  "version": "1.0.0",
+  "description": "A simple http server for testing",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "dev": "nodemon main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nasar165/httpclient.git"
+  },
+  "keywords": [
+    "http",
+    "https",
+    "server",
+    "put",
+    "get",
+    "C-Code",
+    "socket"
+  ],
+  "author": "Nasar Eddaoui",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Nasar165/httpclient/issues"
+  },
+  "homepage": "https://github.com/Nasar165/httpclient#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4"
+  }
+}
