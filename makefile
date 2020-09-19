@@ -12,6 +12,6 @@ https: src/main.c
 run: src/out
 	./src/out/main.out $(domain) ${port}
 
-server: src/out
-	cd server/ && npm start
+server: server/
+	cd server && npm start
  

@@ -46,3 +46,32 @@ int resolve(char *domain, char *ip)
 
     return 0;
 }
+
+void separateUrlFromDomain(char *domain, char *url)
+{
+    int i, b, startUrl;
+    startUrl = 0;
+
+    for (i = 0; i < strlen(domain); i++)
+        if (domain[i] == '/')
+        {
+
+            startUrl = i;
+            break;
+        }
+
+    if (startUrl > 0)
+    {
+        i = 0;
+        for (b = startUrl; b < strlen(domain); b++)
+        {
+            url[i] = domain[b];
+            i++;
+        }
+    }
+
+    url[i] = '\b';
+    // Set end of line to prevent the url from showing
+    if (startUrl > 0)
+        domain[startUrl] = '\0';
+}

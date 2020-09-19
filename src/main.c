@@ -38,15 +38,18 @@ int main(int argc, char *argv[])
 
     http.port = atoi(argv[2]);
 
+    separateUrlFromDomain(http.domain, http.url);
+    printf("%s\n", http.domain);
+
     if ((err = Get(argv[1], &http)) != 0)
         return error("Http request failed\n");
 
     printf("\nProtocol : %s\n", http.protocol);
-    printf("Method : %s\n", http.method);
-    printf("Domain : %s\n", http.domain);
-    printf("URL : %s\n", http.url);
-    printf("Port : %d\n", http.port);
-    printf("IP : %s\n", http.ip);
+    printf("Method \t : %s\n", http.method);
+    printf("Domain \t : %s\n", http.domain);
+    printf("URL \t : %s\n", http.url);
+    printf("Port \t : %d\n", http.port);
+    printf("IP \t : %s\n", http.ip);
     // printf("\nHttp Body :%s\n", http.body);
 
     return 0;
