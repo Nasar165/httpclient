@@ -38,7 +38,7 @@ int Get(char *domain, struct Http *http)
         return error("Failed to connect to the server");
 
     // slash after get represents a url
-    sprintf(request, "GET / HTTP/1.1\r\nHost: %s\r\nConnection: close\r\n\r\n", domain);
+    sprintf(request, "GET / HTTP/1.1\r\nHost: %s\r\nConnection: keep-alive\r\n\r\n", domain);
     sendBytes = strlen(request);
 
     if (write(sock, request, sendBytes) != sendBytes)
@@ -53,4 +53,12 @@ int Get(char *domain, struct Http *http)
         return error("Failed to read from response");
 
     return 0;
+}
+
+struct Header addHeader(char *name, char *value)
+{
+    struct Header header;
+    header.name = name;
+    header.value = value;
+    return header;
 }

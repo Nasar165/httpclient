@@ -24,6 +24,8 @@ struct Http
     char body[BUFFER];
 };
 
+struct Header addHeader(char *name, char *value);
+
 int Get(char *domain, struct Http *http);
 
 #endif

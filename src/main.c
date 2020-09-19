@@ -39,10 +39,13 @@ int main(int argc, char *argv[])
     http.port = atoi(argv[2]);
 
     separateUrlFromDomain(http.domain, http.url);
-    printf("%s\n", http.domain);
 
     if ((err = Get(argv[1], &http)) != 0)
         return error("Http request failed\n");
+
+    http.header[0] = addHeader("keep-alive:", "close");
+    http.header[1] = addHeader("Authorization:", "Bearer adqdada87dasd7165e81hdnl");
+    http.header[1] = addHeader("Content-Type:", "Application/json");
 
     printf("\nProtocol : %s\n", http.protocol);
     printf("Method \t : %s\n", http.method);
@@ -50,7 +53,16 @@ int main(int argc, char *argv[])
     printf("URL \t : %s\n", http.url);
     printf("Port \t : %d\n", http.port);
     printf("IP \t : %s\n", http.ip);
-    // printf("\nHttp Body :%s\n", http.body);
+
+    printf("\nHeaders :\n");
+    for (int i = 0; i < 30; i++)
+        if (http.header[i].name != NULL)
+            printf("%d. : %s %s\n", i, http.header[i].name, http.header[i].value);
+        else
+            break;
+
+    printf("\nBody\n");
+    printf("Body \t : %s\n", http.body);
 
     return 0;
 }

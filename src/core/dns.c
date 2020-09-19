@@ -1,6 +1,6 @@
 #include <stdio.h>           // NULL
 #include <netdb.h>           // hostent addrinfo
-#include <string.h>          // strcpy
+#include <string.h>          // strcpy strlen
 #include <arpa/inet.h>       // inet_ntoa
 #include <sys/socket.h>      // socket sendto perror
 #include <unistd.h>          // close
@@ -55,7 +55,6 @@ void separateUrlFromDomain(char *domain, char *url)
     for (i = 0; i < strlen(domain); i++)
         if (domain[i] == '/')
         {
-
             startUrl = i;
             break;
         }
@@ -68,10 +67,9 @@ void separateUrlFromDomain(char *domain, char *url)
             url[i] = domain[b];
             i++;
         }
+        url[i] = '\b';
     }
 
-    url[i] = '\b';
-    // Set end of line to prevent the url from showing
     if (startUrl > 0)
         domain[startUrl] = '\0';
 }
