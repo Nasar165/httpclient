@@ -5,6 +5,12 @@
 
 #define BUFFER 4096
 
+struct Header
+{
+    char *name;
+    char *value;
+};
+
 struct Http
 {
     char protocol[10];
@@ -13,7 +19,7 @@ struct Http
     char *url;
     uint16_t port;
     char ip[15];
-    char header[30][150];
+    struct Header header[30];
     char body[BUFFER];
 };
 
