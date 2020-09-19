@@ -11,16 +11,14 @@
 
 #define SA struct sockaddr
 
-int Get(char *domain, struct Http *http)
+int fetch(struct Http *request, struct Http *response)
 {
-    strcpy(http->protocol, "HTTP/1.1");
-    strcpy(http->method, "GET");
     int err, n, sock, sendBytes;
     struct sockaddr_in server;
-    char request[BUFFER];
-    char response[BUFFER];
+    char req[BUFFER];
+    char resp[BUFFER];
 
-    if ((err = resolve(domain, http->ip)) != 0)
+    if ((err = resolve(request->domain, request->ip)) != 0)
         return error("An error has occurred fetching the ip of the domain");
 
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) // Init TCP socket
@@ -29,25 +27,25 @@ int Get(char *domain, struct Http *http)
     memset(&server, 0, sizeof(server));
 
     server.sin_family = AF_INET;
-    server.sin_port = htons(http->port);
+    server.sin_port = htons(request->port);
 
-    if ((inet_pton(AF_INET, http->ip, &server.sin_addr)) <= 0)
+    if ((inet_pton(AF_INET, request->ip, &server.sin_addr)) <= 0)
         return error("Unable to convert ip address to binary form");
 
     if ((err = connect(sock, (SA *)&server, sizeof(server))) < 0)
         return error("Failed to connect to the server");
 
     // slash after get represents a url
-    sprintf(request, "GET / HTTP/1.1\r\nHost: %s\r\nConnection: keep-alive\r\n\r\n", domain);
-    sendBytes = strlen(request);
+    sprintf(req, "GET / HTTP/1.1\r\nHost: %s\r\nConnection: keep-alive\r\n\r\n", request->domain);
+    sendBytes = strlen(req);
 
-    if (write(sock, request, sendBytes) != sendBytes)
+    if (write(sock, req, sendBytes) != sendBytes)
         return error("Failed to write to response");
 
-    memset(&response, 0, sizeof(response));
+    memset(&resp, 0, sizeof(resp));
 
-    while ((n = read(sock, response, BUFFER - 1)) > 0)
-        strncpy(http->body, response, sizeof(response));
+    while ((n = read(sock, resp, BUFFER - 1)) > 0)
+        strncpy(response->body, resp, sizeof(resp));
 
     if (n < 0)
         return error("Failed to read from response");

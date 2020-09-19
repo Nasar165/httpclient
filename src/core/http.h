@@ -26,6 +26,6 @@ struct Http
 
 struct Header addHeader(char *name, char *value);
 
-int Get(char *domain, struct Http *http);
+int fetch(struct Http *request, struct Http *response);
 
 #endif

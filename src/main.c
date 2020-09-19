@@ -25,44 +25,47 @@
 // TEST DNS AND HTTP GET
 int main(int argc, char *argv[])
 {
-    struct Http http;
+    struct Http request, response;
     int err = 0;
 
     if (argc <= 2)
         return error("Error: enter a domain and port: main.out <domain> <port>\n");
-    http.domain = argv[1];
+    request.domain = argv[1];
 
     for (int i = 0; i < strlen(argv[2]); i++)
         if (isalpha(argv[2][i]))
             return error("Error: you have entered a alpabetic value as port");
 
-    http.port = atoi(argv[2]);
+    request.port = atoi(argv[2]);
 
-    separateUrlFromDomain(http.domain, http.url);
+    separateUrlFromDomain(request.domain, request.url);
 
-    if ((err = Get(argv[1], &http)) != 0)
+    strcpy(request.protocol, "HTTP/1.1");
+    strcpy(request.method, "GET");
+
+    request.header[0] = addHeader("keep-alive:", "close");
+    request.header[1] = addHeader("Authorization:", "Bearer adqdada87dasd7165e81hdnl");
+    request.header[2] = addHeader("Content-Type:", "Application/json");
+
+    if ((err = fetch(&request, &response)) != 0)
         return error("Http request failed\n");
 
-    http.header[0] = addHeader("keep-alive:", "close");
-    http.header[1] = addHeader("Authorization:", "Bearer adqdada87dasd7165e81hdnl");
-    http.header[1] = addHeader("Content-Type:", "Application/json");
-
-    printf("\nProtocol : %s\n", http.protocol);
-    printf("Method \t : %s\n", http.method);
-    printf("Domain \t : %s\n", http.domain);
-    printf("URL \t : %s\n", http.url);
-    printf("Port \t : %d\n", http.port);
-    printf("IP \t : %s\n", http.ip);
+    printf("\nProtocol : %s\n", response.protocol);
+    printf("Method \t : %s\n", response.method);
+    printf("Domain \t : %s\n", response.domain);
+    printf("URL \t : %s\n", response.url);
+    printf("Port \t : %d\n", response.port);
+    printf("IP \t : %s\n", response.ip);
 
     printf("\nHeaders :\n");
     for (int i = 0; i < 30; i++)
-        if (http.header[i].name != NULL)
-            printf("%d. : %s %s\n", i, http.header[i].name, http.header[i].value);
+        if (response.header[i].name != NULL)
+            printf("%d. : %s %s\n", i, response.header[i].name, response.header[i].value);
         else
             break;
 
     printf("\nBody\n");
-    printf("Body \t : %s\n", http.body);
+    printf("Body \t : %s\n", response.body);
 
     return 0;
 }
