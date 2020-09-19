@@ -1,6 +1,6 @@
 #include <stdio.h>           // NULL
 #include <netdb.h>           // hostent addrinfo
-#include <string.h>          // strcpy
+#include <string.h>          // strcpy strlen
 #include <arpa/inet.h>       // inet_ntoa
 #include <sys/socket.h>      // socket sendto perror
 #include <unistd.h>          // close
@@ -45,4 +45,31 @@ int resolve(char *domain, char *ip)
     freeaddrinfo(result);
 
     return 0;
+}
+
+void separateUrlFromDomain(char *domain, char *url)
+{
+    int i, b, startUrl;
+    startUrl = 0;
+
+    for (i = 0; i < strlen(domain); i++)
+        if (domain[i] == '/')
+        {
+            startUrl = i;
+            break;
+        }
+
+    if (startUrl > 0)
+    {
+        i = 0;
+        for (b = startUrl; b < strlen(domain); b++)
+        {
+            url[i] = domain[b];
+            i++;
+        }
+        url[i] = '\b';
+    }
+
+    if (startUrl > 0)
+        domain[startUrl] = '\0';
 }

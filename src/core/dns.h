@@ -3,4 +3,6 @@
 
 int resolve(char *domain, char *ip);
 
+void separateUrlFromDomain(char *domain, char *url);
+
 #endif
