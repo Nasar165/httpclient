@@ -15,6 +15,7 @@ struct Header
 struct Http
 {
     char protocol[10];
+    uint16_t status;
     char method[6];
     char *domain;
     char url[MAXLENGTH];
